@@ -20,7 +20,7 @@ def String[] allItems = jenkins.getAllItems(Item.class).fullName
 def targetJobs = [
     'backend/channel-api/test1',
     'backend/batch/test2',
-    'backend/common-api/test3',
+    'backend/common-api/test3'
 ]
 
 // def feJobs = [
@@ -86,7 +86,7 @@ projectFolders.each { projectFolderMap ->
         
         subJobs.each { subJob ->
           println "subJob : ${subJob}"
-          def tempSubJobPath = "next/${projectFolder}/${mainFolder}/${serviceType}/${repositoryName}/${subJob}"
+          def tempSubJobPath = "${projectName}/${environment}/${mainFolder}/${serviceType}/${repositoryName}/${subJob}"
           def tempSubJob = jenkins.getItemByFullName(tempSubJobPath)
           tempSubJob.save()
           println "Saved subJob parameter : ${subJob}"                                    
