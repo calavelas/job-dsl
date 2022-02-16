@@ -4,7 +4,7 @@ import hudson.*
 import hudson.model.*
 
 def projectFolders = [
-  	'next-dev' : ['Build/Deploy'],
+  	'next-dev' : ['Build-Deploy'],
 ]
 
 import jenkins.*
