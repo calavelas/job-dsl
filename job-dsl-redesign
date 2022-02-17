@@ -40,7 +40,7 @@ environments.each { environmentsMap ->
   println "Subjob :  ${subJobs}"
   println "============================"
 
-  if (jenkins.getItemByFullName("${projectName}/${environment}") == null) {
+  if (jenkins.getItemByFullName("${projectName}/${environmentFolder}") == null) {
     println("Environment folder not found, Creating Folder : ${projectName}/${environmentFolder}")
     println "============================"
     def folderStructure = jenkins.getItemByFullName("${projectName}/pipeline-management/pipeline-template/folder-structure")
