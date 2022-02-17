@@ -53,6 +53,7 @@ environments.each { environmentsMap ->
   def existingJobs = allJobs.findAll { job -> job.contains(environmentFolder) }
   def existingItems = allItems.findAll { job -> job.contains(environmentFolder)}
   println "existingJobs :  ${existingJobs}"
+  println "============================"          
   println "existingItems :  ${existingItems}"
   println "============================"
   
