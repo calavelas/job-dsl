@@ -19,8 +19,12 @@ def String[] allItems = jenkins.getAllItems(Item.class).fullName
 
 def targetJobs = [
     'backend/channel-api/test1',
-    'backend/batch/test2',
-    'backend/common-api/test3'
+    'backend/channel-api/test2',
+    'backend/channel-api/test3',
+    'backend/channel-api/test4',
+    'backend/batch/test5',
+    'backend/batch/test6',
+    'backend/common-api/test7'
 ]
 
 // def feJobs = [
