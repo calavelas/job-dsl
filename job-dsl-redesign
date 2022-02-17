@@ -3,8 +3,10 @@ import jenkins.model.*
 import hudson.*
 import hudson.model.*
 
-def projectFolders = [
-  	'next-dev' : ['Build-Deploy'],
+def projectName = "next" //{projectName -> Ex next}
+def enviroments = [
+  	'dev' : ['Build-Deploy'],
+    'sit' : ['Build-Deploy']
 ]
 
 import jenkins.*
@@ -31,18 +33,21 @@ def targetJobs = [
 // 	'frontend/back-office-web'
 // ]
 
-projectFolders.each { projectFolderMap ->
-  def projectFolder = projectFolderMap.getKey()
-  def projectName = projectFolder.split('-')[0] //{projectName -> Ex next}
-  def environment = projectFolder.split('-')[-1] //{env -> Ex : dev}
-  def subJobs = projectFolders[projectFolder] //{subJob -> Ex : Build}
-  println "Starting ${projectFolder}"
+println("Checking Project Enviroment")
+enviroments.each { projectFolderMap ->
+  def environment = enviroments.getKey()
+  def subJobs = enviroments[environment] //{subJob -> Ex : Build,Deploy,Build-Deploy}
+
   println "projectName : ${projectName}"
   println "enviroment : ${environment}"
   println "Subjob :  ${subJobs}"
+  println ""
+  println "============================"
 
   if (jenkins.getItemByFullName("${projectName}/${environment}") == null) {
-    print("Enviroment folder not found, Creating Folder : ${projectName}/${environment}")
+    println("Enviroment folder not found, Creating Folder : ${projectName}/${environment}")
+    println ""
+    println "============================"
     def folderStructure = jenkins.getItemByFullName("${projectName}/pipeline-management/pipeline-template/folder-structure")
     def tempTargetPath =  jenkins.getItemByFullName(projectName)
     jenkins.copy(folderStructure, environment)
@@ -63,7 +68,6 @@ projectFolders.each { projectFolderMap ->
       def serviceType = job.split('/')[1]
       def repositoryName = job.split('/')[-1]
       println "Start Job :  ${mainFolder}/${serviceType}/${repositoryName}"
-
       // def templateSubFolder = ''
       // switch (mainFolder) {
       // 	case 'frontend':
@@ -76,11 +80,11 @@ projectFolders.each { projectFolderMap ->
       
 
       def template = jenkins.getItemByFullName("${projectName}/pipeline-management/pipeline-template/template-${environment}/${serviceType}")
-      println "template : ${template}"
+      //println "template : ${template}"
       //println "template : ${projectName}/pipeline-management/pipeline-template/template-${environment}/${serviceType}"
       
       def targetPath = jenkins.getItemByFullName("${projectName}/${environment}/${mainFolder}/${serviceType}")
-      println "targetPath : ${targetPath}" //next/dev/backend/channel-api/mobile-profiles/test
+      //println "targetPath : ${targetPath}" //next/dev/backend/channel-api/mobile-profiles/test
     
       try {
          
@@ -102,7 +106,9 @@ projectFolders.each { projectFolderMap ->
           def tempSubJobPath = "${projectName}/${environment}/${mainFolder}/${serviceType}/${repositoryName}/${subJob}"
           def tempSubJob = jenkins.getItemByFullName(tempSubJobPath)
           tempSubJob.save()
-          println "Saved subJob parameter : ${subJob}"                                    
+          println "Saved subJob parameter : ${subJob}"
+          println ""
+          println "============================"                                    
         }
         
       } catch (Exception err) {
