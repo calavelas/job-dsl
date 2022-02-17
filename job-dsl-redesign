@@ -55,8 +55,8 @@ enviroments.each { enviromentsMap ->
     Items.move(tempFolder, tempTargetPath)
   }
 
-  def existingJobs = allJobs.findAll { job -> job.contains(projectFolder) }
-  def existingItems = allItems.findAll { job -> job.contains(projectFolder)}
+  def existingJobs = allJobs.findAll { job -> job.contains(environment) }
+  def existingItems = allItems.findAll { job -> job.contains(environment)}
   println "existingJobs :  ${existingJobs}"
   println "existingItems :  ${existingItems}"
   
@@ -91,7 +91,7 @@ enviroments.each { enviromentsMap ->
         jenkins.copy(template, repositoryName)
         def temp = jenkins.getItemByFullName(repositoryName)
         Items.move(temp, targetPath)
-        println "Created ${projectFolder}/${job}"
+        println "Created ${environment}/${job}"
         
         // switch (mainFolder) {
         //   case 'frontend':
