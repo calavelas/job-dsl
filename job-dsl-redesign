@@ -34,8 +34,8 @@ def targetJobs = [
 // ]
 
 println("Checking Project Enviroment")
-enviroments.each { projectFolderMap ->
-  def environment = enviroments.getKey()
+enviroments.each { enviromentsMap ->
+  def environment = enviromentsMap.getKey()
   def subJobs = enviroments[environment] //{subJob -> Ex : Build,Deploy,Build-Deploy}
 
   println "projectName : ${projectName}"
