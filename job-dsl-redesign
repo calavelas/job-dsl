@@ -41,6 +41,15 @@ projectFolders.each { projectFolderMap ->
   println "enviroment : ${environment}"
   println "Subjob :  ${subJobs}"
 
+  if (jenkins.getItem("${projectName}/${environment}") == null) {
+    
+    def folderStructure = jenkins.getItemByFullName("pipeline-template/folder-structure")
+    def tempTargetPath =  jenkins.getItemByFullName("${projectName}")
+    jenkins.copy(folderStructure, environment)
+    Items.move(temp, tempTargetPath)
+      
+  }
+
   def existingJobs = allJobs.findAll { job -> job.contains(projectFolder) }
   def existingItems = allItems.findAll { job -> job.contains(projectFolder)}
   println "existingJobs :  ${existingJobs}"
