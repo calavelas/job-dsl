@@ -15,13 +15,14 @@ def String[] allJobs = jenkins.getAllItems(Job.class).fullName
 def String[] allItems = jenkins.getAllItems(Item.class).fullName
 
 def targetJobs = [
-    'backend/channel-api/test1',
-    'backend/channel-api/test2',
-    'backend/channel-api/test3',
-    'backend/channel-api/test4',
-    'backend/batch/test5',
-    'backend/batch/test6',
-    'backend/common-api/test7'
+    'backend/channel-api/api-microservice1',
+    'backend/channel-api/api-microservice2',
+    'backend/channel-api/api-microservice3',
+    'backend/channel-api/api-microservice4',
+    'backend/batch/batch-job1',
+    'backend/batch/batch-job2',
+    'backend/common-api/api-microservice-common1',
+    'backend/common-api/api-microservice-common2'
 ]
 
 // def feJobs = [
