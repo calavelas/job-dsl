@@ -41,7 +41,7 @@ projectFolders.each { projectFolderMap ->
   println "enviroment : ${environment}"
   println "Subjob :  ${subJobs}"
 
-  if (jenkins.getItem("${projectName}/${environment}") == null) {
+  if (jenkins.getItemByFullName("${projectName}/${environment}") == null) {
     print("Enviroment folder not found, Creating Folder : ${projectName}/${environment}")
     def folderStructure = jenkins.getItemByFullName("${projectName}/pipeline-management/pipeline-template/folder-structure")
     def tempTargetPath =  jenkins.getItemByFullName(projectName)
