@@ -6,7 +6,7 @@ import hudson.model.*
 jenkins = Jenkins.instance
 
 def projectName = "next" //{projectName -> Ex next}
-def enviroments = [
+def environments = [
   	'dev' : ['Build-Deploy'],
     'sit' : ['Build-Deploy']
 ]
@@ -28,29 +28,29 @@ def targetJobs = [
 // 	'frontend/back-office-web'
 // ]
 
-println("Checking Project Enviroment")
-enviroments.each { enviromentsMap ->
-  def environment = enviromentsMap.getKey()
-  def subJobs = enviroments[environment] //{subJob -> Ex : Build,Deploy,Build-Deploy}
-  def enviromentFolder = projectName+"-"+environment
+println("Checking Project environment")
+environments.each { environmentsMap ->
+  def environment = environmentsMap.getKey() //{environment} -> Ex : dev
+  def subJobs = environments[environment] //{subJob -> Ex : Build,Deploy,Build-Deploy}
+  def environmentFolder = projectName+"-"+environment //{environmentFolder} -> Ex : next-dev
   println "!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
   println "projectName : ${projectName}"
-  println "enviroment : ${environment}"
+  println "environment : ${environment}"
   println "Subjob :  ${subJobs}"
   println "============================"
 
   if (jenkins.getItemByFullName("${projectName}/${environment}") == null) {
-    println("Enviroment folder not found, Creating Folder : ${projectName}/${environment}")
+    println("Environment folder not found, Creating Folder : ${projectName}/${environmentFolder}")
     println "============================"
     def folderStructure = jenkins.getItemByFullName("${projectName}/pipeline-management/pipeline-template/folder-structure")
     def tempTargetPath =  jenkins.getItemByFullName(projectName)
-    jenkins.copy(folderStructure, enviromentFolder)
-    def tempFolder = jenkins.getItemByFullName(enviromentFolder)
+    jenkins.copy(folderStructure, environmentFolder)
+    def tempFolder = jenkins.getItemByFullName(environmentFolder)
     Items.move(tempFolder, tempTargetPath)
   }
 
-  def existingJobs = allJobs.findAll { job -> job.contains(enviromentFolder) }
-  def existingItems = allItems.findAll { job -> job.contains(enviromentFolder)}
+  def existingJobs = allJobs.findAll { job -> job.contains(environmentFolder) }
+  def existingItems = allItems.findAll { job -> job.contains(environmentFolder)}
   println "existingJobs :  ${existingJobs}"
   println "existingItems :  ${existingItems}"
   println "============================"
@@ -59,12 +59,17 @@ enviroments.each { enviromentsMap ->
 
     if(!existingJobs.any { existingJob -> existingJob.contains(job) } ) {
       
-      def mainFolder = job.split('/')[0] //{mainType -> Ex : backend}
-      def serviceType = job.split('/')[1]
-      def repositoryName = job.split('/')[-1]
-      println "Starting Job :  ${mainFolder}/${serviceType}/${repositoryName}"
+      def mainServiceType = job.split('/')[0] //{mainServiceType -> Ex : backend}
+      def subServiceType = job.split('/')[1] //{subServiceType -> Ex : channel-api}
+      def serviceName = job.split('/')[-1] //{subServiceType -> Ex : channel-api}
+      println "Environment Folder :  ${environmentFolder}"
+      println "Starting Job :  ${mainServiceType}/${subServiceType}/${serviceName}"
+      println "mainServiceType :  ${mainServiceType}"
+      println "subServiceType :  ${subServiceType}"
+      println "serviceName :  ${serviceName}"
+
       // def templateSubFolder = ''
-      // switch (mainFolder) {
+      // switch (mainServiceType) {
       // 	case 'frontend':
       //   	templateSubFolder = 'frontend'
       //   	break
@@ -74,21 +79,20 @@ enviroments.each { enviromentsMap ->
       // }
       
 
-      def template = jenkins.getItemByFullName("${projectName}/pipeline-management/pipeline-template/template-${environment}/${serviceType}")
-      //println "template : ${template}"
-      //println "template : ${projectName}/pipeline-management/pipeline-template/template-${environment}/${serviceType}"
+      def template = jenkins.getItemByFullName("${projectName}/pipeline-management/pipeline-template/template-${environment}/${subServiceType}")
+      println "templatePath : ${template}"
       
-      def targetPath = jenkins.getItemByFullName("${projectName}/${environment}/${mainFolder}/${serviceType}")
-      //println "targetPath : ${targetPath}" //next/dev/backend/channel-api/mobile-profiles/test
+      def targetPath = jenkins.getItemByFullName("${projectName}/${environmentFolder}/${mainServiceType}/${subServiceType}")
+      println "targetPath : ${targetPath}" //next/dev/backend/channel-api/mobile-profiles/test
     
       try {
          
-        jenkins.copy(template, repositoryName)
-        def temp = jenkins.getItemByFullName(repositoryName)
+        jenkins.copy(template, serviceName)
+        def temp = jenkins.getItemByFullName(serviceName)
         Items.move(temp, targetPath)
-        println "Created : ${environment}/${job}"
+        println "Created : ${environmentFolder}/${job}"
         
-        // switch (mainFolder) {
+        // switch (mainServiceType) {
         //   case 'frontend':
         //       subJobs = ['Deploy']
         //       break
@@ -97,7 +101,7 @@ enviroments.each { enviromentsMap ->
         // }
         
         subJobs.each { subJob ->
-          def tempSubJobPath = "${projectName}/${environment}/${mainFolder}/${serviceType}/${repositoryName}/${subJob}"
+          def tempSubJobPath = "${projectName}/${environmentFolder}/${mainServiceType}/${subServiceType}/${serviceName}/${subJob}"
           def tempSubJob = jenkins.getItemByFullName(tempSubJobPath)
           tempSubJob.save()
           println "Saved subJob parameter : ${subJob}"
@@ -106,7 +110,7 @@ enviroments.each { enviromentsMap ->
         
       } catch (Exception err) {
         
-        def temp = jenkins.getItemByFullName(repositoryName)
+        def temp = jenkins.getItemByFullName(serviceName)
         println err.message
         Items.delete(temp)
         
