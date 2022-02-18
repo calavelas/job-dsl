@@ -8,8 +8,8 @@ jenkins = Jenkins.instance
 def projectName = "next" //{projectName -> Ex next}
 
 def environments = [
-  	'dev' : ['Build-Deploy'],
-    'sit' : ['Build-Deploy']
+  	'dev' : ['Build-Deploy']
+    // 'sit' : ['Build-Deploy']
 ]
 
 def String[] allJobs = jenkins.getAllItems(Job.class).fullName
@@ -18,12 +18,12 @@ def String[] allItems = jenkins.getAllItems(Item.class).fullName
 def targetJobs = [
     'backend/channel-api/mobile-profiles',
     'backend/channel-api/mobile-deposits',
-    'backend/channel-api/api-microservice3',
-    'backend/channel-api/api-microservice4',
-    'backend/batch/batch-job1',
-    'backend/batch/batch-job2',
-    'backend/common-api/api-microservice-common1',
-    'backend/common-api/api-microservice-common2'
+    // 'backend/channel-api/api-microservice3',
+    // 'backend/channel-api/api-microservice4',
+    // 'backend/batch/batch-job1',
+    // 'backend/batch/batch-job2',
+    // 'backend/common-api/api-microservice-common1',
+    // 'backend/common-api/api-microservice-common2'
 ]
 
 // def feJobs = [
