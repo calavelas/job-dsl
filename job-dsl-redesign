@@ -8,7 +8,7 @@ jenkins = Jenkins.instance
 def projectName = "next" //{projectName -> Ex next}
 
 def environments = [
-  	'dev' : ['Build-Deploy']
+  	'dev' : ['Build-Deploy'],
     'sit' : ['Build','Deploy']
 ]
 
