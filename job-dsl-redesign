@@ -9,7 +9,7 @@ def projectName = "next" //{projectName -> Ex next}
 
 def environments = [
   	'dev' : ['Build-Deploy']
-    // 'sit' : ['Build-Deploy']
+    'sit' : ['Build','Deploy']
 ]
 
 def String[] allJobs = jenkins.getAllItems(Job.class).fullName
