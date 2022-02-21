@@ -20,6 +20,8 @@ def targetJobs = [
     'backend/channel-api/api-microservice2',
     'backend/channel-api/api-microservice3',
     'backend/channel-api/api-microservice4',
+    'backend/channel-api/mobile-deposits',
+    'backend/channel-api/mobile-profiles',
     'backend/batch/batch-job1',
     'backend/batch/batch-job2',
     'backend/common-api/api-microservice-common1',
