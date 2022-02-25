@@ -108,6 +108,7 @@ environments.each { environmentsMap ->
           def tempSubJobPath = "${projectName}/${environmentFolder}/${mainServiceType}/${subServiceType}/${serviceName}/${subJob}"
           def tempSubJob = jenkins.getItemByFullName(tempSubJobPath)
           tempSubJob.save()
+          println "${subJob.pipeline-name} -> ${subJob.value} "
           println "Saved subJob parameter : ${subJob}"
           println "============================"                                    
         }
